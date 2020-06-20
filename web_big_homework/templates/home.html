@@ -5,8 +5,17 @@
 </head>
 <body>
 	<h1>welcome to my home page!</h1>
-	{% for name in node_name %}
-		<p>{{ name }}</p>
-	{% endfor %}
+	<div width="2000" height="2000">
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000">
+		{% for node in data %}
+		<g class="leaf node" transform="translate({{node.pos_x}}, {{node.pos_y}})">
+			<title>
+				{{node.name}}
+			</title>
+				<circle r="{{node.r}}" style="fill: hsl({{node.hue}}, 50%, 50%);"></circle>
+		</g>
+		{% endfor %}
+	</svg>
+	</div>
 </body>
 </html>

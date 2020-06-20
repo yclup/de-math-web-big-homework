@@ -19,6 +19,10 @@ class Node:
 	def __init__(self, name):
 		self.name = name
 
+	def save_position(self, pos_list):
+		self.x = pos_list[0]
+		self.y = pos_list[1]
+
 def create_edge_list(source):
 	with open(source, encoding='utf-8') as f:
 		database = json.load(f)
@@ -41,6 +45,10 @@ def create_graph(node_dictionary, edge_list):
 		g.add_edge(
 			node_dictionary[edge.start_cv], node_dictionary[edge.end_cv],
 			edge=edge)
+	pos_dic = nx.drawing.layout.spring_layout(g, dim=2, scale=1e3, k=0.3)
+	for item in pos_dic:
+		item.save_position(pos_dic[item])
+
 	return g 
 
 def save_graph(g):
@@ -51,6 +59,7 @@ def save_graph(g):
 		still_save = input("still save? y/n")
 		if still_save == 'y':
 			nx.write_gpickle(g, GRAPH_PATH)
+			print("rewrite success")
 		else:
 			return
 
