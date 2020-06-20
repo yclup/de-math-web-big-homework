@@ -1,5 +1,12 @@
+import sys
+
+sys.path.append('algorithms')
+
 from django.shortcuts import render, redirect
-from algorithms import graph_APIs
+import graph_APIs
 # Create your views here.
+
 def home_page(request):
-	return render(request, 'home.html')
+	cvgraph = graph_APIs.CVGraph('data/graph.gpickle')
+	node_name = cvgraph.return_node_names_as_list()
+	return render(request, 'home.html', {'node_name': node_name})
