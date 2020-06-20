@@ -62,5 +62,3 @@ def main():
 	save_graph(g)
 	#print(len(g.edges))
 	#print(len(edge_list), len(node_dictionary))
-
-main()
