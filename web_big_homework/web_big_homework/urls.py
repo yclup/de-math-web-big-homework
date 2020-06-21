@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name="home"),
     path('specify_number/', views.specify_number, name="specify_number"),
-    path('line_info/<str:node_name>/', views.line_info, name="iine_info")
+    path('line_info/<str:node_name>/', views.line_info_alone, name="iine_info_alone"),
+    path('cv_info/<str:node_name>/', views.cv_info, name="cv_info"),
+    path('line_info/<str:start_node_name>/<str:end_node_name>/', views.line_info_double, name="line_info_double")
 ]

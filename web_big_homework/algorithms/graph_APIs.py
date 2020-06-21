@@ -3,6 +3,16 @@ from create_graph import Node, Side
 import math 
 GRAPH_PATH = "../data/graph.gpickle"
 
+def convert_side_to_info_dic(attr_dic):
+	side = attr_dic['edge']
+	return {'start_cv': side.start_cv, 
+			'end_cv': side.end_cv,
+			'start_char': side.start_char,
+			'end_char': side.end_char, 
+			'anime_name': side.anime_name, 
+			'year': side.year,
+			'weight': side.weight}
+
 class DataOfNode:
 	def __init__(self, name, pos, radius, hue):
 		self.name = name 
@@ -66,7 +76,7 @@ class CVGraph:
 
 	def test(self):
 		print(len(self.graph.edges))
-		print(self.return_line_info_between_two_nodes("中村悠一",))
+		print(self.return_line_info_between_two_nodes("中村悠一", "诹访部顺一"))
 
 	def return_line_info_list_of_a_node(self, node_name: str):
 		line_info_list = []
@@ -77,14 +87,15 @@ class CVGraph:
 			neighbor_x, neighbor_y = self.return_position_of_node_as_tuple(neighbor.name)
 			line_info_list.append({'x1': self_x, 'y1': self_y, 'x2': neighbor_x, 'y2': neighbor_y,
 										'start': node_name, 'end': neighbor.name})
-								 #'info': self.return_line_info_between_two_nodes(node_object, neighbor)})
-
 		return line_info_list
 
-	def return_line_info_between_two_nodes(self, node_1, node_2):
+	def return_line_info_between_two_nodes(self, node_name_1, node_name_2):
 		if not hasattr(self, "pos_dictionary"):
 			self.create_pos_dictionary()
-		return list(self.graph.get_edge_data(node_1, node_2).values())
+		node_1 = self.return_node_object_via_name(node_name_1)
+		node_2 = self.return_node_object_via_name(node_name_2)
+		return list(map(lambda attr_dic: convert_side_to_info_dic(attr_dic), 
+			self.graph.get_edge_data(node_1, node_2).values()))
 
 
 
