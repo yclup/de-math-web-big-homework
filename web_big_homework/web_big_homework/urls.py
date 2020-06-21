@@ -20,5 +20,6 @@ from graph import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name="home"),
-    path('specify_number/', views.specify_number, name="specify_number")
+    path('specify_number/', views.specify_number, name="specify_number"),
+    path('line_info/<str:node_name>/', views.line_info, name="iine_info")
 ]

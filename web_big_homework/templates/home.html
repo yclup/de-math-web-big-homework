@@ -2,6 +2,10 @@
 <html>
 <head>
 	<title>HOME PAGE</title>
+	<link rel="stylesheet" type="text/css" href="/static/base.css">
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="/static/base.js"></script>
+	<script type="text/javascript" src="/static/jquery.js"></script>
 </head>
 <body>
 	<h1>welcome to my home page!</h1>
@@ -14,7 +18,7 @@
 	<h2>Number of visiable nodes</h2>
 	<p><span>{{num_of_nodes}}</span></p>
 	<div width="2000" height="2000">
-	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000">
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000" id="main">
 		{% for node in data %}
 		<g class="leaf node" transform="translate({{node.pos_x}}, {{node.pos_y}})">
 			<title>

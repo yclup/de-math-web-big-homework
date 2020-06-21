@@ -65,7 +65,28 @@ class CVGraph:
 		return nx.read_gpickle(graph_path)
 
 	def test(self):
-		print(self.return_data_to_draw())
+		print(len(self.graph.edges))
+		print(self.return_line_info_between_two_nodes("中村悠一",))
+
+	def return_line_info_list_of_a_node(self, node_name: str):
+		line_info_list = []
+		node_object = self.return_node_object_via_name(node_name)
+		self_x , self_y = self.return_position_of_node_as_tuple(node_name)
+		neighbor_list = nx.neighbors(self.graph, node_object)
+		for neighbor in neighbor_list:
+			neighbor_x, neighbor_y = self.return_position_of_node_as_tuple(neighbor.name)
+			line_info_list.append({'x1': self_x, 'y1': self_y, 'x2': neighbor_x, 'y2': neighbor_y,
+										'start': node_name, 'end': neighbor.name})
+								 #'info': self.return_line_info_between_two_nodes(node_object, neighbor)})
+
+		return line_info_list
+
+	def return_line_info_between_two_nodes(self, node_1, node_2):
+		if not hasattr(self, "pos_dictionary"):
+			self.create_pos_dictionary()
+		return list(self.graph.get_edge_data(node_1, node_2).values())
+
+
 
 class CVSubGraph(CVGraph): #  return "num_of_nodes" nodes with most sides
 	def __init__(self, cvgraph, num_of_nodes):
@@ -77,6 +98,4 @@ class CVSubGraph(CVGraph): #  return "num_of_nodes" nodes with most sides
 
 def test():
 	cv_graph = CVGraph()
-	#cv_graph.test()
-	sub_cvgraph = CVSubGraph(cv_graph, 100)
-
+	cv_graph.test()
