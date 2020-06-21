@@ -19,5 +19,6 @@ from graph import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home_page, name="home")
+    path('', views.home_page, name="home"),
+    path('specify_number/', views.specify_number, name="specify_number")
 ]

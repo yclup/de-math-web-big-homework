@@ -5,6 +5,14 @@
 </head>
 <body>
 	<h1>welcome to my home page!</h1>
+	<form method="POST", action="\specify_number\">
+		<label for="number_input">请输入想要显示的节点数量（将尽可能显示关联边数量较多的节点）</label>
+		<input type="text" name="node_num" id="number_input" pattern="[0-9]+">
+		<input type="submit" value="Submit">
+		{% csrf_token %}
+	</form>
+	<h2>Number of visiable nodes</h2>
+	<p><span>{{num_of_nodes}}</span></p>
 	<div width="2000" height="2000">
 	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000">
 		{% for node in data %}

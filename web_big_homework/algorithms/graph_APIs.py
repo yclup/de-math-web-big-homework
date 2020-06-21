@@ -17,6 +17,12 @@ class CVGraph:
 		self.graph = self.retrive_and_create_graph(self.graph_path)
 		self.create_node_dictionary()
 
+	def return_number_of_nodes(self):
+		return len(self.graph.nodes)
+
+	def create_pos_dictionary(self):
+		self.pos_dictionary = nx.drawing.layout.spring_layout(self.graph, k=0.3, dim=2, scale=1e3)
+
 	def create_node_dictionary(self):
 		self.node_dictionary = {}
 		for node in self.graph.nodes:
@@ -26,8 +32,7 @@ class CVGraph:
 		return self.node_dictionary[node_name]
 
 	def return_position_of_node_as_tuple(self, node_name: str):
-		return (self.return_node_object_via_name(node_name).x + 1000, 
-			self.return_node_object_via_name(node_name).y + 1000)
+		return tuple(self.pos_dictionary[self.return_node_object_via_name(node_name)] + 1000)
 
 	def return_hue_of_node(self, node_name: str):
 		return int((self.return_side_num_of_a_node_by_name(node_name) *360 / 2000) % 360)
@@ -40,10 +45,16 @@ class CVGraph:
 		radius = math.log(square)
 		return radius
 
-	def return_side_num_of_a_node_by_name(self, node: str):
-		return len(nx.edges(self.graph, nbunch=self.return_node_object_via_name(node)))
+	def return_side_num_of_a_node_by_name(self, node_name: str):
+		return len(nx.edges(self.graph, nbunch=self.return_node_object_via_name(node_name)))
+
+	def return_sorted_nodes_as_list(self, reverse=True):
+		return sorted(list(self.graph.nodes), 
+			key=lambda node: self.return_side_num_of_a_node_by_name(node.name), 
+			reverse=reverse)
 
 	def return_data_to_draw(self):
+		self.create_pos_dictionary()
 		data = []
 		for node in self.graph.nodes:
 			data.append(DataOfNode(node.name, self.return_position_of_node_as_tuple(node.name), 
@@ -56,7 +67,16 @@ class CVGraph:
 	def test(self):
 		print(self.return_data_to_draw())
 
+class CVSubGraph(CVGraph): #  return "num_of_nodes" nodes with most sides
+	def __init__(self, cvgraph, num_of_nodes):
+		sorted_nodes = cvgraph.return_sorted_nodes_as_list()
+		self.graph = cvgraph.graph.subgraph(sorted_nodes[:num_of_nodes])
+		self.create_node_dictionary()
+		self.create_pos_dictionary()
+
+
 def test():
 	cv_graph = CVGraph()
-	cv_graph.test()
+	#cv_graph.test()
+	sub_cvgraph = CVSubGraph(cv_graph, 100)
 
