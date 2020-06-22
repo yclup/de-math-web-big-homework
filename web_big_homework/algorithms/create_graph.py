@@ -44,7 +44,7 @@ def create_graph(node_dictionary, edge_list):
 	for edge in edge_list:
 		g.add_edge(
 			node_dictionary[edge.start_cv], node_dictionary[edge.end_cv],
-			edge=edge)
+			edge=edge, weight=int(edge.weight))
 	pos_dic = nx.drawing.layout.spring_layout(g, dim=2, scale=1e3, k=0.3)
 	for item in pos_dic:
 		item.save_position(pos_dic[item])

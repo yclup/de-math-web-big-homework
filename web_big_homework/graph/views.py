@@ -11,6 +11,7 @@ from graph_APIs import DataOfNode, CVSubGraph
 CVGRAPH = graph_APIs.CVGraph('data/graph.gpickle')
 now_cv_graph = CVGRAPH
 main_data = CVGRAPH.return_data_to_draw()
+path_dic = {"/": "home.html", "/shortest_path/": "shortest_path.html"}
 
 def home_page(request):
 	num_of_nodes = CVGRAPH.return_number_of_nodes()
@@ -18,7 +19,7 @@ def home_page(request):
 	context = {'data': main_data, 'num_of_nodes': num_of_nodes}
 	return render(request, 'home.html', context)
 
-def specify_number(request):
+def specify_number(request, template):
 	global now_cv_graph
 	if request.method == "POST":
 		if request.POST['node_num'] != "":
@@ -26,7 +27,7 @@ def specify_number(request):
 			now_cv_graph = CVSubGraph(CVGRAPH, num_of_nodes)
 			data = now_cv_graph.return_data_to_draw()
 			context = {'data': data, 'num_of_nodes': num_of_nodes}
-			return render(request, 'home.html', context)
+			return render(request, "{}.html".format(template), context)
 		else:
 			return redirect('/')
 
@@ -45,3 +46,13 @@ def cv_info(request, node_name: str):
 def line_info_double(request, start_node_name: str, end_node_name: str):
 	response = now_cv_graph.return_line_info_between_two_nodes(start_node_name, end_node_name)
 	return JsonResponse(response, safe=False)
+
+def shortest_path_by_name(request, start_node_name: str, end_node_name: str):
+	response = now_cv_graph.return_shortest_path_line_info(start_node_name, end_node_name)
+	return JsonResponse(response, safe=False)
+
+def shortest_path_by_post(request):
+	num_of_nodes = now_cv_graph.return_number_of_nodes()
+	data = now_cv_graph.return_data_to_draw()
+	context = {'data': data, 'num_of_nodes': num_of_nodes}
+	return render(request, 'shortest_path.html', context)

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SHORTEST_PATH</title>
+	<link rel="stylesheet" type="text/css" href="/static/base.css">
+	<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
+	<script type="text/javascript" src="/static/shortest_path.js"></script>
+	<script type="text/javascript" src="/static/jquery.js"></script>
+</head>
+<body>
+	<h1>welcome to shortest path page!</h1>
+	<h1>点击两个节点或者输入节点名查看最短路径</h1>
+	<form action="\shortest_path\" method="POST">
+		<label for="start_cv">开始节点：</label>
+		<input type="text" name="start_cv" id="start_cv">
+		<label for="end_cv">结束节点：</label>
+		<input type="text" name="end_cv" id="end_cv">
+		<input type="submit" value="搜索">
+	</form>
+	<form method="POST", action="\specify_number\shortest_path\">
+		<label for="number_input">请输入想要显示的节点数量（将尽可能显示关联边数量较多的节点）</label>
+		<input type="text" name="node_num" id="number_input" pattern="[0-9]+">
+		<input type="submit" value="Submit">
+		{% csrf_token %}
+	</form>
+	<h2>Number of visiable nodes</h2>
+	<p><span>{{num_of_nodes}}</span></p>
+	<div width="2000" height="2000">
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="2000" height="2000" id="main">
+		{% for node in data %}
+		<g class="leaf node" transform="translate({{node.pos_x}}, {{node.pos_y}})">
+			<title>
+				{{node.name}}
+			</title>
+				<circle r="{{node.r}}" style="fill: hsl({{node.hue}}, 50%, 50%);"></circle>
+		</g>
+		{% endfor %}
+	</svg>
+	</div>
+	<div class="node_info">
+		<img src="" alt="cv picture" id="cv_picture">
+		<p class="intro" id="cv_intro"></p>
+	</div>
+	<div class="edge_info">
+		<ul id="edge_list">
+		</ul>
+	</div>
+</body>
+</html>
