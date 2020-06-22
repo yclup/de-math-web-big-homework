@@ -24,6 +24,7 @@ urlpatterns = [
     path('line_info/<str:node_name>/', views.line_info_alone, name="iine_info_alone"),
     path('cv_info/<str:node_name>/', views.cv_info, name="cv_info"),
     path('line_info/<str:start_node_name>/<str:end_node_name>/', views.line_info_double, name="line_info_double"),
-    path('shortest_path/', views.shortest_path_by_post, name="sp_by_post"),
-    path('shortest_path/<str:start_node_name>/<str:end_node_name>/', views.shortest_path_by_name, name='sp_by_name')
+    path('shortest_path/', views.shortest_path, name="sp_by_post"),
+    path('shortest_path/<str:start_node_name>/<str:end_node_name>/', views.shortest_path_by_name, name='sp_by_name'),
+    path('shortest_line_info/<str:start_node_name>/<str:end_node_name>/', views.shortest_line_info, name="shortest_line_info"),
 ]

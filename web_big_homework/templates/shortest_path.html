@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>SHORTEST_PATH</title>
 	<link rel="stylesheet" type="text/css" href="/static/base.css">
 	<link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.css">
@@ -8,9 +9,12 @@
 	<script type="text/javascript" src="/static/jquery.js"></script>
 </head>
 <body>
+	<a href="/">
+	<button>GO TO HOME PAGE</button>
+	</a>
 	<h1>welcome to shortest path page!</h1>
 	<h1>点击两个节点或者输入节点名查看最短路径</h1>
-	<form action="\shortest_path\" method="POST">
+	<form  id="search">
 		<label for="start_cv">开始节点：</label>
 		<input type="text" name="start_cv" id="start_cv">
 		<label for="end_cv">结束节点：</label>
@@ -23,6 +27,7 @@
 		<input type="submit" value="Submit">
 		{% csrf_token %}
 	</form>
+	<div><p class="length">最短路径长度:<span id="length"></span></p></div>
 	<h2>Number of visiable nodes</h2>
 	<p><span>{{num_of_nodes}}</span></p>
 	<div width="2000" height="2000">
