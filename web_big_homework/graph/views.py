@@ -62,5 +62,5 @@ def shortest_path(request):
 	return render(request, 'shortest_path.html', context)
 
 def shortest_line_info(request, start_node_name: str, end_node_name: str):
-	response = now_cv_graph.return_shortest_line_between_two_connected_nodes(start_node_name, end_node_name)
+	response = now_cv_graph.return_shortest_line_info_between_two_nodes(start_node_name, end_node_name)
 	return JsonResponse(response, safe=False)

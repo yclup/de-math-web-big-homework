@@ -97,9 +97,17 @@ class CVGraph:
 		return list(map(lambda attr_dic: convert_side_to_info_dic(attr_dic), 
 			self.graph.get_edge_data(node_1, node_2).values()))
 
-	def return_shortest_line_between_two_connected_nodes(self, node_name_1: str, node_name_2: str):
-		node_1 = self.return_node_object_via_name(node_name_1)
-		node_2 = self.return_node_object_via_name(node_name_2)
+	def return_shortest_line_info_between_two_nodes(self, start_node_name, end_node_name):
+		start_node_object = self.return_node_object_via_name(start_node_name)
+		end_node_object = self.return_node_object_via_name(end_node_name)
+		shortest_path_node_list = nx.shortest_path(self.graph, start_node_object, end_node_object, weight="weight")
+		line_info_list = []
+		for i in range(len(shortest_path_node_list) - 1):
+			line_info_list.append(self.return_shortest_line_between_two_connected_nodes(
+				shortest_path_node_list[i], shortest_path_node_list[i+1]))
+		return line_info_list
+	
+	def return_shortest_line_between_two_connected_nodes(self, node_1, node_2):
 		return convert_side_to_info_dic(min(self.graph.get_edge_data(node_1, node_2).values(), 
 			key=lambda attr_dic: attr_dic['edge'].weight))
 

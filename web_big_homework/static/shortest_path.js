@@ -33,8 +33,9 @@ function createLine(){
 			}
 			if (clicked_items.length == 2){
 				$.getJSON('/shortest_path/'+clicked_items[0]+'/'+clicked_items[1], function(ret){
-					drawLineFromReturnData(ret)
+					drawLineFromReturnData(ret);
 				})
+				fill_edge_info(clicked_items[0], clicked_items[1]);
 			}
 			$.getJSON('/cv_info/'+node_name, function(ret){
 				document.getElementById("cv_picture").src = ret.src;
@@ -61,13 +62,15 @@ function fill_edge_info(start, end){
 	removeTag(document.getElementById("edge_list"), "ul");
 	removeTag(document.getElementById("edge_list"), "hr");
 	$.getJSON('/shortest_line_info/'+start+'/'+end, function(ret){
+		for(let i = 0; i < ret.length; i++){
 		var container = document.createElement("ul");
-		addLiChild(container, ret.anime_name+", "+ret.year);
-		addLiChild(container, ret.start_cv+": "+ret.start_char);
-		addLiChild(container, ret.end_cv+": "+ret.end_char);
-		addLiChild(container, "weight: "+ret.weight)
+		addLiChild(container, ret[i].anime_name+", "+ret[i].year);
+		addLiChild(container, ret[i].start_cv+": "+ret[i].start_char);
+		addLiChild(container, ret[i].end_cv+": "+ret[i].end_char);
+		addLiChild(container, "weight: "+ret[i].weight)
 		document.getElementById("edge_list").appendChild(container);
 		document.getElementById("edge_list").appendChild(document.createElement("hr"));
+		}
 	})
 }
 
@@ -85,9 +88,7 @@ function drawLineFromReturnData(ret){
 			line.start = ret[i].start;
 			line.end = ret[i].end;
 		}
-		line.addEventListener("click", function(){
-			fill_edge_info(line.start, line.end);
-		})
+
 		document.getElementById("main").appendChild(line);
 	}
 	$('#length').html(ret[0].shortest_length)
