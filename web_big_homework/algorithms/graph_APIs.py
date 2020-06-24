@@ -31,7 +31,7 @@ class CVGraph:
 		return len(self.graph.nodes)
 
 	def create_pos_dictionary(self):
-		self.pos_dictionary = nx.drawing.layout.spring_layout(self.graph, k=0.3, dim=2, scale=1e3)
+		self.pos_dictionary = nx.drawing.layout.spring_layout(self.graph, k=0.98, dim=2, scale=1e3)
 
 	def create_node_dictionary(self):
 		self.node_dictionary = {}
@@ -76,7 +76,7 @@ class CVGraph:
 
 	def test(self):
 		print(len(self.graph.edges))
-		print(self.return_shortest_line_between_two_connected_nodes(self.return_node_object_via_name("中村悠一"), self.return_node_object_via_name("松冈祯丞")))
+		print(self.return_line_info_between_two_nodes("松冈祯丞", "诹访部顺一"))
 	
 	def return_line_info_list_of_a_node(self, node_name: str):
 		line_info_list = []

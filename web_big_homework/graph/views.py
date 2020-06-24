@@ -14,6 +14,7 @@ main_data = CVGRAPH.return_data_to_draw()
 path_dic = {"/": "home.html", "/shortest_path/": "shortest_path.html"}
 
 def home_page(request):
+	global now_cv_graph
 	num_of_nodes = CVGRAPH.return_number_of_nodes()
 	now_cv_graph = CVGRAPH
 	context = {'data': main_data, 'num_of_nodes': num_of_nodes}
@@ -32,10 +33,12 @@ def specify_number(request, template):
 			return redirect('/')
 
 def line_info_alone(request, node_name: str):
+	global now_cv_graph
 	response = now_cv_graph.return_line_info_list_of_a_node(node_name)
 	return JsonResponse(response, safe=False)
 
 def cv_info(request, node_name: str):
+	global now_cv_graph
 	src = "/static/introduction/{}.jpg".format(node_name)
 	intro_route = os.path.join(BASE_DIR, "static/introduction/{}.txt".format(node_name))
 	with open(intro_route, encoding='utf-8') as f:
@@ -44,10 +47,12 @@ def cv_info(request, node_name: str):
 	return JsonResponse(response, safe=False)
 
 def line_info_double(request, start_node_name: str, end_node_name: str):
+	global now_cv_graph
 	response = now_cv_graph.return_line_info_between_two_nodes(start_node_name, end_node_name)
 	return JsonResponse(response, safe=False)
 
 def shortest_path_by_name(request, start_node_name: str, end_node_name: str):
+	global now_cv_graph
 	node_name_list = now_cv_graph.return_node_names_as_list()
 	if start_node_name in node_name_list and end_node_name in node_name_list:
 		response = now_cv_graph.return_shortest_path_line_info(start_node_name, end_node_name)
@@ -56,11 +61,13 @@ def shortest_path_by_name(request, start_node_name: str, end_node_name: str):
 	return JsonResponse(response, safe=False)
 
 def shortest_path(request):
+	global now_cv_graph
 	num_of_nodes = CVGRAPH.return_number_of_nodes()
 	now_cv_graph = CVGRAPH
 	context = {'data': main_data, 'num_of_nodes': num_of_nodes}
 	return render(request, 'shortest_path.html', context)
 
 def shortest_line_info(request, start_node_name: str, end_node_name: str):
+	global now_cv_graph
 	response = now_cv_graph.return_shortest_line_info_between_two_nodes(start_node_name, end_node_name)
 	return JsonResponse(response, safe=False)
