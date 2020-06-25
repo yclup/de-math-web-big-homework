@@ -3,7 +3,7 @@
 {% block header_text %}welcome to shortest path page!{% endblock %}
 {% block link %}
 	<a href="/">
-	<button>GO TO HOME PAGE</button>
+	<button class="btn btn-primary btn-large btn-block">GO TO HOME PAGE</button>
 	</a>
 {% endblock %}
 {% block form_action %}
@@ -11,12 +11,23 @@
 {% endblock %}
 {% block js_src %}shortest_path.js{% endblock %}
 {% block search_form %}
-	<form  id="search">
-		<label for="start_cv">开始节点：</label>
-		<input type="text" name="start_cv" id="start_cv">
-		<label for="end_cv">结束节点：</label>
-		<input type="text" name="end_cv" id="end_cv">
-		<input type="submit" value="搜索">
+	<form  id="search" class="form-search form-horizontal">
+		<div class="control-group">
+		<label class="control-label" for="start_cv">开始节点：</label>
+			<div class="controls">
+		<input type="text" name="start_cv" id="start_cv" class="search-query">
+			</div>
+		</div>
+		<div class="control-group">
+		<label class="control-label" for="end_cv">结束节点：</label>
+			<div class="controls">
+				
+		<input type="text" name="end_cv" id="end_cv" class="search-query">
+			</div>
+		</div>
+		<div class="form-actions">
+		<button class="btn btn-primary btn-large" type="submit">搜索</button>
+		</div>
 	</form>
 {% endblock %}
 {% block info %}<div><p class="length">最短路径长度:<span id="length"></span></p></div>{% endblock %}
